@@ -1,0 +1,176 @@
+package com.example.restaurants.web.dish;
+
+import com.example.restaurants.web.AbstractControllerTest;
+import com.example.restaurants.repository.DishRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static com.example.restaurants.web.dish.DishTestData.*;
+import static com.example.restaurants.util.DishesUtil.getTos;
+import static com.example.restaurants.web.dish.DishController.REST_URL;
+import static com.example.restaurants.web.user.UserTestData.USER_MAIL;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+class DishControllerTest extends AbstractControllerTest {
+    private static final String REST_URL_SLASH = REST_URL + '/';
+    @Autowired
+    private DishRepository dishRepository;
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void get() throws Exception {
+        perform(MockMvcRequestBuilders.get("/api/restaurants/2/dishes/" + 4))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_MATCHER.contentJson(dish4));
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void getAll() throws Exception {
+        perform(MockMvcRequestBuilders.get("/api/restaurants/2/dishes"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_TO_MATCHER.contentJson(getTos(dishesOf2Restaurant)));
+    }
+
+//    @Test
+//    void getUnauth() throws Exception {
+//        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + MEAL1_ID))
+//                .andExpect(status().isUnauthorized());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void getNotFound() throws Exception {
+//        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_MEAL_ID))
+//                .andDo(print())
+//                .andExpect(status().isNotFound());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void delete() throws Exception {
+//        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + MEAL1_ID))
+//                .andExpect(status().isNoContent());
+//        assertFalse(mealRepository.get(UserTestData.USER_ID, MEAL1_ID).isPresent());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void deleteDataConflict() throws Exception {
+//        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + ADMIN_MEAL_ID))
+//                .andExpect(status().isConflict());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void update() throws Exception {
+//        Meal updated = getUpdated();
+//        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + MEAL1_ID)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(updated)))
+//                .andExpect(status().isNoContent());
+//
+//        MEAL_MATCHER.assertMatch(mealRepository.getExisted(MEAL1_ID), updated);
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void createWithLocation() throws Exception {
+//        Dish newDish = getNew();
+//        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(newMeal)));
+//
+//        Meal created = MEAL_MATCHER.readFromJson(action);
+//        int newId = created.id();
+//        newMeal.setId(newId);
+//        MEAL_MATCHER.assertMatch(created, newMeal);
+//        MEAL_MATCHER.assertMatch(mealRepository.getExisted(newId), newMeal);
+//    }
+//
+//
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void getBetween() throws Exception {
+//        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "filter")
+//                .param("startDate", "2020-01-30").param("startTime", "07:00")
+//                .param("endDate", "2020-01-31").param("endTime", "11:00"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(MEAL_TO_MATCHER.contentJson(createTo(meal5, true), createTo(meal1, false)));
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void getBetweenAll() throws Exception {
+//        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "filter?startDate=&endTime="))
+//                .andExpect(status().isOk())
+//                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(meals, UserTestData.user.getCaloriesPerDay())));
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = ADMIN_MAIL)
+//    void createInvalid() throws Exception {
+//        Meal invalid = new Meal(null, null, "Dummy", 200);
+//        perform(MockMvcRequestBuilders.post(REST_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid)))
+//                .andDo(print())
+//                .andExpect(status().isUnprocessableEntity());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void updateInvalid() throws Exception {
+//        Meal invalid = new Meal(MEAL1_ID, null, null, 6000);
+//        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + MEAL1_ID)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid)))
+//                .andDo(print())
+//                .andExpect(status().isUnprocessableEntity());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = USER_MAIL)
+//    void updateHtmlUnsafe() throws Exception {
+//        Meal invalid = new Meal(MEAL1_ID, LocalDateTime.now(), "<script>alert(123)</script>", 200);
+//        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + MEAL1_ID)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid)))
+//                .andDo(print())
+//                .andExpect(status().isUnprocessableEntity());
+//    }
+//
+//    @Test
+//    @Transactional(propagation = Propagation.NEVER)
+//    //@WithUserDetails(value = USER_MAIL)
+//    void updateDuplicate() throws Exception {
+//        Meal invalid = new Meal(MEAL1_ID, meal2.getDateTime(), "Dummy", 200);
+//        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + MEAL1_ID)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid)))
+//                .andDo(print())
+//                .andExpect(status().isConflict());
+//    }
+//
+//    @Test
+//    //@WithUserDetails(value = ADMIN_MAIL)
+//    void createDuplicate() throws Exception {
+//        Meal invalid = new Meal(null, adminMeal1.getDateTime(), "Dummy", 200);
+//        perform(MockMvcRequestBuilders.post(REST_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid)))
+//                .andDo(print())
+//                .andExpect(status().isConflict());
+//    }
+}
