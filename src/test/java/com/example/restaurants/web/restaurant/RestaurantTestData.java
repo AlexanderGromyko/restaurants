@@ -1,6 +1,5 @@
 package com.example.restaurants.web.restaurant;
 
-import com.example.restaurants.model.Dish;
 import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.to.RestaurantTo;
 import com.example.restaurants.util.RestaurantsUtil;
@@ -17,6 +16,7 @@ public class RestaurantTestData {
 
     public static final int RESTAURANT1_ID = 1;
     public static final int RESTAURANT2_ID = 2;
+    public static final int RESTAURANT3_ID = 3;
     public static final int RESTAURANT999_ID = 999;
 
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "IKEA cafe", "Cafe for IKEA customers");

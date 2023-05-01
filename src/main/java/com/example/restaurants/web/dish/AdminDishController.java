@@ -8,6 +8,7 @@ import com.example.restaurants.web.restaurant.AdminRestaurantController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import static com.example.restaurants.util.validation.ValidationUtil.checkNew;
 public class AdminDishController extends AbstractDishController {
     public static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes";
 
+    @Autowired
     private final DishRepository repository;
 
     private final DishService service;

@@ -1,31 +1,20 @@
 package com.example.restaurants.repository;
 
-import com.example.restaurants.error.NotFoundException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.restaurants.model.Vote;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
-// https://stackoverflow.com/questions/42781264/multiple-base-repositories-in-spring-data-jpa
-@NoRepositoryBean
-public interface VoteRepository<T> extends JpaRepository<T, Integer> {
+import java.util.Optional;
 
-    //    https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query.spel-expressions
+@Transactional()
+public interface VoteRepository extends BaseRepository<Vote> {
+
     @Transactional
     @Modifying
-    @Query("DELETE FROM #{#entityName} e WHERE e.id=:id")
-    int delete(int userId);
+    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.restaurant.id=:restaurantId")
+    int delete(int userId, int restaurantId);
 
-    //  https://stackoverflow.com/a/60695301/548473 (existed delete code 204, not existed: 404)
-    @SuppressWarnings("all") // transaction invoked
-    default void deleteExisted(int id) {
-        if (delete(id) == 0) {
-            throw new NotFoundException("Entity with id=" + id + " not found");
-        }
-    }
-
-    default T getExisted(int id) {
-        return findById(id).orElseThrow(() -> new NotFoundException("Entity with id=" + id + " not found"));
-    }
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and v.restaurant.id=:restaurantId")
+    Optional<Vote> get(int userId, int restaurantId);
 }
