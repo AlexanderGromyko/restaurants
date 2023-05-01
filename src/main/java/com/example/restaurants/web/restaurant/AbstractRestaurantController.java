@@ -18,7 +18,7 @@ public abstract class AbstractRestaurantController {
 
     public RestaurantTo get(int id) {
         log.info("get {}", id);
-        return RestaurantsUtil.createTo(repository.get(id));
+        return RestaurantsUtil.createTo(repository.get(id).orElseThrow());
     }
 
     public List<RestaurantTo> getAll() {

@@ -28,6 +28,7 @@ public class AdminDishController extends AbstractDishController {
     public static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes";
 
     private final DishRepository repository;
+
     private final DishService service;
 
     @GetMapping("/{id}")

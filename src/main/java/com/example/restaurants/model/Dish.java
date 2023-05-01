@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.Range;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"restaurant"})
 public class Dish extends NamedEntity {
-
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)

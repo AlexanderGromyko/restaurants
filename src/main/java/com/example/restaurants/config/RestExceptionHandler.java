@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.example.restaurants.error.ErrorType.*;
@@ -48,6 +49,7 @@ public class RestExceptionHandler {
         {
 // more specific first
             put(NotFoundException.class, NOT_FOUND);
+            put(NoSuchElementException.class, NOT_FOUND);
             put(DataConflictException.class, DATA_CONFLICT);
             put(IllegalRequestDataException.class, BAD_REQUEST);
             put(AppException.class, APP_ERROR);

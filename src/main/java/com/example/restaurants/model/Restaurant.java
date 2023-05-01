@@ -22,9 +22,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends NamedEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
@@ -38,7 +35,6 @@ public class Restaurant extends NamedEntity implements Serializable {
     private List<Dish> dishes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    //@OrderBy("user ASC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
     private List<Vote> votes;

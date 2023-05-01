@@ -1,7 +1,6 @@
 package com.example.restaurants.web.dish;
 
 import com.example.restaurants.model.Dish;
-import com.example.restaurants.repository.DishRepository;
 import com.example.restaurants.to.DishTo;
 import com.example.restaurants.web.restaurant.RestaurantController;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class DishController extends AbstractDishController{
     public static final String REST_URL = RestaurantController.REST_URL + "/{restaurantId}/dishes";
-    private final DishRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<Dish> get(@PathVariable int id, @PathVariable int restaurantId) {

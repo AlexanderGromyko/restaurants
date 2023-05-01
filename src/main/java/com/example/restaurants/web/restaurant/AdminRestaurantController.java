@@ -4,7 +4,8 @@ import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.to.RestaurantTo;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,27 +18,24 @@ import java.util.List;
 
 import static com.example.restaurants.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurants.util.validation.ValidationUtil.checkNew;
-import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
+@AllArgsConstructor
 public class AdminRestaurantController extends AbstractRestaurantController {
     public static final String REST_URL = "/api/admin/restaurants";
-
-    protected final Logger log = getLogger(getClass());
 
     @Autowired
     protected RestaurantRepository repository;
 
     @GetMapping("/{id}")
     public RestaurantTo get(@PathVariable int id) {
-        log.info("get {}", id);
         return super.get(id);
     }
 
     @GetMapping
     public List<RestaurantTo> getAll() {
-        log.info("getAll restaurants");
         return super.getAll();
     }
 

@@ -1,5 +1,6 @@
 package com.example.restaurants.web.restaurant;
 
+import com.example.restaurants.model.Dish;
 import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.to.RestaurantTo;
 import com.example.restaurants.util.RestaurantsUtil;
@@ -25,4 +26,12 @@ public class RestaurantTestData {
     public static final RestaurantTo restaurantTo2 = RestaurantsUtil.createTo(restaurant2);
 
     public static final List<Restaurant> restaurants = List.of(restaurant3, restaurant2, restaurant1);
+
+    public static Restaurant getNew() {
+        return new Restaurant(null, "new restaurant name", "new restaurant description");
+    }
+
+    public static Restaurant getUpdated() {
+        return new Restaurant(RESTAURANT2_ID, "updated restaurant name", "updated restaurant description");
+    }
 }
