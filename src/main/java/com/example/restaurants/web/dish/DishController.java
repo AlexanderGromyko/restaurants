@@ -3,7 +3,6 @@ package com.example.restaurants.web.dish;
 import com.example.restaurants.model.Dish;
 import com.example.restaurants.repository.DishRepository;
 import com.example.restaurants.to.DishTo;
-import com.example.restaurants.util.DishesUtil;
 import com.example.restaurants.web.restaurant.RestaurantController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +19,17 @@ import java.util.List;
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-public class DishController {
+public class DishController extends AbstractDishController{
     public static final String REST_URL = RestaurantController.REST_URL + "/{restaurantId}/dishes";
     private final DishRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<Dish> get(@PathVariable int id, @PathVariable int restaurantId) {
-        log.info("get dish {} for restaurant {}", id, restaurantId);
-        return ResponseEntity.of(repository.get(restaurantId, id));
+        return super.get(id, restaurantId);
     }
 
     @GetMapping
     public List<DishTo> getAll(@PathVariable int restaurantId) {
-        log.info("getAll for restaurant {}", restaurantId);
-        return DishesUtil.getTos(repository.getAll(restaurantId));
+        return super.getAll(restaurantId);
     }
 }

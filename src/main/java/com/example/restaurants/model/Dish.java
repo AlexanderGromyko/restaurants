@@ -2,17 +2,12 @@ package com.example.restaurants.model;
 
 import com.example.restaurants.util.validation.NoHtml;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "dishes")
@@ -21,10 +16,6 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"restaurant"})
 public class Dish extends NamedEntity {
-
-    @Column(name = "date_time", nullable = false)
-    @NotNull
-    private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
     @NotBlank
@@ -42,20 +33,9 @@ public class Dish extends NamedEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    public Dish(Integer id, String name, LocalDateTime dateTime, String description, int price) {
+    public Dish(Integer id, String name, String description, int price) {
         super(id, name);
-        this.dateTime = dateTime;
         this.description = description;
         this.price = price;
-    }
-
-    @Schema(hidden = true)
-    public LocalDate getDate() {
-        return dateTime.toLocalDate();
-    }
-
-    @Schema(hidden = true)
-    public LocalTime getTime() {
-        return dateTime.toLocalTime();
     }
 }

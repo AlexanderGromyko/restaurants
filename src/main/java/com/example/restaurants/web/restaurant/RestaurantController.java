@@ -1,12 +1,10 @@
 package com.example.restaurants.web.restaurant;
 
-import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.to.RestaurantTo;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,7 @@ public class RestaurantController extends AbstractRestaurantController {
     protected RestaurantRepository repository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         log.info("get {}", id);
         return super.get(id);
     }

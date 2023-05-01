@@ -4,8 +4,6 @@ import com.example.restaurants.model.Dish;
 import com.example.restaurants.repository.DishRepository;
 import com.example.restaurants.service.DishService;
 import com.example.restaurants.to.DishTo;
-import com.example.restaurants.util.DishesUtil;
-import com.example.restaurants.web.AuthUser;
 import com.example.restaurants.web.restaurant.AdminRestaurantController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -13,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,7 +21,7 @@ import static com.example.restaurants.util.validation.ValidationUtil.assureIdCon
 import static com.example.restaurants.util.validation.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
 public class AdminDishController extends AbstractDishController {
@@ -66,7 +63,7 @@ public class AdminDishController extends AbstractDishController {
         checkNew(dish);
         Dish created = service.save(restaurantId, dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(AdminRestaurantController.REST_URL + '/' + restaurantId + "/dishes/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }

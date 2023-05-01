@@ -18,6 +18,6 @@ public class DishesUtil {
     }
 
     public static DishTo createTo(Dish dish) {
-        return new DishTo(dish.getId(), dish.getName(), dish.getDateTime(), dish.getDescription(), dish.getPrice());
+        return new DishTo(dish.getId(), dish.getName(), dish.getDescription(), dish.getPrice());
     }
 }

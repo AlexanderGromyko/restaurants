@@ -1,6 +1,5 @@
 package com.example.restaurants.web.restaurant;
 
-import com.example.restaurants.model.Dish;
 import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.to.RestaurantTo;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.restaurants.util.validation.ValidationUtil.assureIdConsistent;
@@ -32,7 +30,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     protected RestaurantRepository repository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         log.info("get {}", id);
         return super.get(id);
     }
@@ -42,12 +40,6 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         log.info("getAll restaurants");
         return super.getAll();
     }
-
-//    @GetMapping
-//    public List<RestaurantTo> getAll(@PathVariable LocalDate date) {
-//        log.info("getAll restaurants on date");
-//        return super.getAll(date);
-//    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -65,7 +57,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithPlacement(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
+    public ResponseEntity<Restaurant> createWithPlacement(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
         Restaurant created = repository.save(restaurant);

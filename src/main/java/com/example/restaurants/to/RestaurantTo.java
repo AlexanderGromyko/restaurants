@@ -8,9 +8,12 @@ import lombok.Value;
 public class RestaurantTo extends NamedTo{
     String description;
 
-    public RestaurantTo(Integer id, String name, String description) {
+    int votes;
+
+    public RestaurantTo(Integer id, String name, String description, int votes) {
         super(id, name);
         this.description = description;
+        this.votes = votes;
     }
 
     @Override

@@ -24,19 +24,21 @@ import java.util.List;
 public class Restaurant extends NamedEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
     @NoHtml
     private String description;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("dateTime DESC")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy("name ASC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
     private List<Dish> dishes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("date DESC")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    //@OrderBy("user ASC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
     private List<Vote> votes;

@@ -1,7 +1,9 @@
 package com.example.restaurants.web.restaurant;
 
+import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -13,13 +15,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class RestaurantControllerTest extends AbstractControllerTest {
-    private static final String REST_URL_SLASH = REST_URL_USER + '/';
+class AdminRestaurantControllerTest extends AbstractControllerTest {
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT2_ID))
+        perform(MockMvcRequestBuilders.get("/api/restaurants/2"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -29,24 +32,10 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_USER))
+        perform(MockMvcRequestBuilders.get("/api/restaurants"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_TO_MATCHER.contentJson(getTos(restaurants)));
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT999_ID))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void getUnauth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT2_ID))
-                .andExpect(status().isUnauthorized());
     }
 }
