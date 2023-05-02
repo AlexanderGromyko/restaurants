@@ -29,6 +29,6 @@ public class VoteService {
     }
 
     public static boolean itIsGoodTimeToMakeVote() {
-        return LocalTime.now().isAfter(LocalTime.of(11, 0, 0));
+        return LocalTime.now().isBefore(LocalTime.of(11, 0, 0));
     }
 }
