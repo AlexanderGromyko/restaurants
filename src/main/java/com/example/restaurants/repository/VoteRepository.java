@@ -7,10 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Transactional()
+@Transactional
 public interface VoteRepository extends BaseRepository<Vote> {
 
-    @Transactional
     @Modifying
     @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.restaurant.id=:restaurantId")
     int delete(int userId, int restaurantId);
