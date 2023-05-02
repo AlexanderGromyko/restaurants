@@ -19,6 +19,8 @@ public class VoteService {
 
     private final RestaurantRepository restaurantRepository;
 
+    public static final LocalTime GOOD_TIME_TO_VOTE = LocalTime.of(11, 0, 0);
+
     @Transactional
     public Vote save(User user, int restaurantId) {
         if(itIsGoodTimeToMakeVote()) {
@@ -28,7 +30,13 @@ public class VoteService {
         } else throw new IllegalRequestDataException("It's not allowed to change vote after 11:00:00");
     }
 
+    public int delete(int userId, int restaurantId) {
+        if(itIsGoodTimeToMakeVote()) {
+            return voteRepository.delete(userId, restaurantId);
+        } else throw new IllegalRequestDataException("It's not allowed to change vote after 11:00:00");
+    }
+
     public static boolean itIsGoodTimeToMakeVote() {
-        return LocalTime.now().isBefore(LocalTime.of(11, 0, 0));
+        return LocalTime.now().isBefore(GOOD_TIME_TO_VOTE);
     }
 }

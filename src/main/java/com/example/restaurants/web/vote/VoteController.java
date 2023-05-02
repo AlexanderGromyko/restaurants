@@ -5,6 +5,7 @@ import com.example.restaurants.repository.VoteRepository;
 import com.example.restaurants.service.VoteService;
 import com.example.restaurants.web.AuthUser;
 import com.example.restaurants.web.restaurant.RestaurantController;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,15 @@ public class VoteController {
         return ResponseEntity.of(repository.get(authUser.id(), restaurantId));
     }
 
+    @Operation(summary = "note: only owner can delete his own vote and only before 11:00:00")
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser, @PathVariable int restaurantId) {
         log.info("delete vote of userId {} and restaurantId {}", authUser.id(), restaurantId);
-        repository.delete(authUser.id(), restaurantId);
+        service.delete(authUser.id(), restaurantId);
     }
 
+    @Operation(summary = "note: owner can vote only for himself and only before 11:00:00")
     @PostMapping
     public ResponseEntity<Vote> createWithPlacement(@AuthenticationPrincipal AuthUser authUser, @PathVariable int restaurantId) {
         log.info("create vote for userId {} and restaurantId {}", authUser.getUser(), restaurantId);

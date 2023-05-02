@@ -39,9 +39,11 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
-                .andExpect(status().isNoContent());
-        assertFalse(voteRepository.get(USER_ID, RESTAURANT2_ID).isPresent());
+        if(itIsGoodTimeToMakeVote()) {
+            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
+                    .andExpect(status().isNoContent());
+            assertFalse(voteRepository.get(USER_ID, RESTAURANT2_ID).isPresent());
+        }
     }
 
     @Test
@@ -67,6 +69,15 @@ class VoteControllerTest extends AbstractControllerTest {
             ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT3_ID + "/votes")
                     .contentType(MediaType.APPLICATION_JSON));
             action.andExpect(status().isUnprocessableEntity());
+        }
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void deleteOnWrongTime() throws Exception {
+        if(!itIsGoodTimeToMakeVote()) {
+            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
+                    .andExpect(status().isUnprocessableEntity());
         }
     }
 }
