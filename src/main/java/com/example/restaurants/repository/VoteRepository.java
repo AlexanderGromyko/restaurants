@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface VoteRepository extends BaseRepository<Vote> {
 
     @Modifying
-    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.restaurant.id=:restaurantId")
+    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.restaurant.id=:restaurantId AND v.date=CURRENT_DATE()")
     int delete(int userId, int restaurantId);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and v.restaurant.id=:restaurantId")
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and v.restaurant.id=:restaurantId AND v.date=CURRENT_DATE()")
     Optional<Vote> get(int userId, int restaurantId);
 }

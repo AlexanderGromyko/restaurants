@@ -26,7 +26,8 @@ VALUES ('Fried eggs', 1, '3 fried eggs', 4000),
        ('Burger', 3, 'Big Tasty from McDonalds', 2200),
        ('Beer 0.33', 3, 'Non-alcoholic beer', 3500);
 
-INSERT INTO VOTES (restaurant_id, user_id)
-VALUES (1, 2),
-       (1, 3),
-       (2, 1);
+INSERT INTO VOTES (restaurant_id, user_id, vote_date)
+VALUES (1, 2, CURRENT_DATE),
+       (1, 3, CURRENT_DATE),
+       (2, 1, CURRENT_DATE),
+       (2, 1, DATEADD('DAY',-1, CURRENT_DATE));
