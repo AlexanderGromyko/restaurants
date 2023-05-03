@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static com.example.restaurants.util.DishesUtil.getTos;
 import static com.example.restaurants.web.dish.DishTestData.*;
 import static com.example.restaurants.web.user.UserTestData.ADMIN_MAIL;
+import static com.example.restaurants.web.vote.VoteTestData.YESTERDAY_STRING_PARAMETER;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -48,6 +49,16 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
+    void getAllOnYesterday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_ADMIN + YESTERDAY_STRING_PARAMETER))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_TO_MATCHER.contentJson(getTos(dishesOnYesterday)));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
     void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + DISH1_ID))
                 .andDo(print())
@@ -55,7 +66,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUnauth() throws Exception {
+    void getWithoutAuthorisation() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + DISH5_ID))
                 .andExpect(status().isUnauthorized());
     }

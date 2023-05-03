@@ -10,6 +10,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+
 import static com.example.restaurants.service.VoteService.itIsGoodTimeToMakeVote;
 import static com.example.restaurants.web.restaurant.RestaurantTestData.*;
 import static com.example.restaurants.web.user.UserTestData.USER_ID;
@@ -40,9 +42,9 @@ class VoteControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
         if(itIsGoodTimeToMakeVote()) {
-            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
+            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes" + TODAY_STRING_PARAMETER))
                     .andExpect(status().isNoContent());
-            assertFalse(voteRepository.get(USER_ID, RESTAURANT2_ID).isPresent());
+            assertFalse(voteRepository.get(USER_ID, RESTAURANT2_ID, LocalDate.now()).isPresent());
         }
     }
 

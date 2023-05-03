@@ -9,6 +9,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "dishes")
 @Getter
@@ -16,6 +18,10 @@ import org.hibernate.validator.constraints.Range;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true, exclude = {"restaurant"})
 public class Dish extends NamedEntity {
+    @Column(name = "menu_date", nullable = false)
+    @NotNull
+    private LocalDate date;
+
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
@@ -32,8 +38,9 @@ public class Dish extends NamedEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    public Dish(Integer id, String name, String description, int price) {
+    public Dish(Integer id, String name, LocalDate date, String description, int price) {
         super(id, name);
+        this.date = date;
         this.description = description;
         this.price = price;
     }

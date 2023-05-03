@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.restaurants.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurants.util.validation.ValidationUtil.checkNew;
@@ -39,8 +41,8 @@ public class AdminDishController extends AbstractDishController {
     }
 
     @GetMapping
-    public List<DishTo> getAll(@PathVariable int restaurantId) {
-        return super.getAll(restaurantId);
+    public List<DishTo> getAll(@PathVariable int restaurantId, @RequestParam("date") Optional<LocalDate> date) {
+        return super.getAll(restaurantId, date.orElse(LocalDate.now()));
     }
 
     @DeleteMapping("/{id}")

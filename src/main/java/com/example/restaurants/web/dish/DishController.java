@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,6 @@ public class DishController extends AbstractDishController{
 
     @GetMapping
     public List<DishTo> getAll(@PathVariable int restaurantId) {
-        return super.getAll(restaurantId);
+        return super.getAll(restaurantId, LocalDate.now());
     }
 }

@@ -31,13 +31,13 @@ public class Vote extends BaseEntity{
     private Restaurant restaurant;
 
     public Vote(Integer id, User user, Restaurant restaurant) {
-        this(id, user, restaurant, LocalDate.now());
+        this(id, LocalDate.now(), user, restaurant);
     }
 
-    public Vote(Integer id, User user, Restaurant restaurant, LocalDate date) {
+    public Vote(Integer id, LocalDate date, User user, Restaurant restaurant) {
         this.id = id;
+        this.date = date;
         this.user = user;
         this.restaurant = restaurant;
-        this.date = date;
     }
 }
