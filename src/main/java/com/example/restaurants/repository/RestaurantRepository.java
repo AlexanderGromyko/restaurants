@@ -16,6 +16,14 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     List<Restaurant> getAll();
 
     @EntityGraph(attributePaths =  {"votes"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT r FROM Restaurant r WHERE r.enabled ORDER BY r.name ASC")
+    List<Restaurant> getAllEnadled();
+
+    @EntityGraph(attributePaths =  {"votes"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
     Optional<Restaurant> get(int id);
+
+    @EntityGraph(attributePaths =  {"votes"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT r FROM Restaurant r WHERE r.id=:id AND r.enabled")
+    Optional<Restaurant> getEnadled(int id);
 }

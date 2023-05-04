@@ -22,11 +22,11 @@ public class RestaurantTestData {
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "IKEA cafe", "Cafe for IKEA customers");
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT1_ID + 1, "Cafe", "Small cafe");
     public static final Restaurant restaurant3 = new Restaurant(RESTAURANT1_ID + 2, "British pub", "Famous British pub");
-
+    public static final Restaurant restaurant4 = new Restaurant(RESTAURANT1_ID + 3, "Closed pub", "Famous British pub, but closed", false);
     public static final RestaurantTo restaurantTo2 = RestaurantsUtil.createTo(restaurant2);
 
-    public static final List<Restaurant> restaurants = List.of(restaurant3, restaurant2, restaurant1);
-
+    public static final List<Restaurant> allRestaurants = List.of(restaurant3, restaurant2, restaurant4, restaurant1);
+    public static final List<Restaurant> enabledRestaurants = List.of(restaurant3, restaurant2, restaurant1);
     public static Restaurant getNew() {
         return new Restaurant(null, "new restaurant name", "new restaurant description");
     }

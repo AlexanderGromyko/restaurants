@@ -1,6 +1,5 @@
 package com.example.restaurants.web.restaurant;
 
-import com.example.restaurants.model.Dish;
 import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.util.JsonUtil;
@@ -13,8 +12,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.restaurants.util.RestaurantsUtil.getTos;
-import static com.example.restaurants.web.restaurant.RestaurantTestData.REST_URL_ADMIN;
-import static com.example.restaurants.web.restaurant.RestaurantTestData.REST_URL_USER;
 import static com.example.restaurants.web.restaurant.RestaurantTestData.*;
 import static com.example.restaurants.web.user.UserTestData.ADMIN_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -45,7 +42,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(getTos(restaurants)));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(getTos(allRestaurants)));
     }
 
     @Test

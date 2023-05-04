@@ -1,14 +1,12 @@
 package com.example.restaurants.to;
 
+import com.example.restaurants.HasIdAndEmail;
+import com.example.restaurants.util.validation.NoHtml;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.hibernate.validator.constraints.Range;
-import com.example.restaurants.HasIdAndEmail;
-import com.example.restaurants.util.validation.NoHtml;
 
 @Value
 @EqualsAndHashCode(callSuper = true)

@@ -22,6 +22,6 @@ public class RestaurantsUtil {
         if(restaurant.getVotes() != null){
             votes = restaurant.getVotes().size();
         }
-        return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getDescription(), votes);
+        return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getDescription(), restaurant.isEnabled(), votes);
     }
 }

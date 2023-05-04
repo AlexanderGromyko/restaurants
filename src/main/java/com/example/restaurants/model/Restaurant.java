@@ -27,6 +27,9 @@ public class Restaurant extends NamedEntity implements Serializable {
     @NoHtml
     private String description;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("name ASC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
@@ -43,8 +46,13 @@ public class Restaurant extends NamedEntity implements Serializable {
     }
 
     public Restaurant(Integer id, String name, String description) {
+        this(id, name, description, true);
+    }
+
+    public Restaurant(Integer id, String name, String description, boolean enabled) {
         super(id, name);
         this.description = description;
+        this.enabled = enabled;
     }
 
     @Override

@@ -44,6 +44,9 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -59,23 +62,24 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
     private List<Vote> votes;
 
     public User(User u) {
-        this(u.id, u.name, u.email, u.password, u.registered, u.roles);
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
     public User(Integer id, String name, String email, String password, Role... roles) {
-        this(id, name, email, password, new Date(), Arrays.asList(roles));
+        this(id, name, email, password, true, new Date(), Arrays.asList(roles));
     }
 
-    public User(Integer id, String name, String email, String password, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
+        this.enabled = enabled;
         this.registered = registered;
         setRoles(roles);
     }

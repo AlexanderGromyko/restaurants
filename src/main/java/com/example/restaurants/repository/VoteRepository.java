@@ -1,6 +1,7 @@
 package com.example.restaurants.repository;
 
 import com.example.restaurants.model.Vote;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public interface VoteRepository extends BaseRepository<Vote> {
 
     @Modifying
-    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.restaurant.id=:restaurantId AND v.date=:voteDate")
-    int delete(int userId, int restaurantId, LocalDate voteDate);
+    @Transactional
+    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.date=:date")
+    int delete(int userId, LocalDate date);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and v.restaurant.id=:restaurantId AND v.date=:voteDate")
-    Optional<Vote> get(int userId, int restaurantId, LocalDate voteDate);
+    @EntityGraph(attributePaths =  {"restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.date=:date")
+    Optional<Vote> get(int userId, LocalDate date);
 }

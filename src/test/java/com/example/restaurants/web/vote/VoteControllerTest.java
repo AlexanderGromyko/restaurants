@@ -1,7 +1,8 @@
 package com.example.restaurants.web.vote;
 
-import com.example.restaurants.model.Vote;
 import com.example.restaurants.repository.VoteRepository;
+import com.example.restaurants.to.VoteToTest;
+import com.example.restaurants.util.JsonUtil;
 import com.example.restaurants.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,54 +14,52 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 
 import static com.example.restaurants.service.VoteService.itIsGoodTimeToMakeVote;
-import static com.example.restaurants.web.restaurant.RestaurantTestData.*;
-import static com.example.restaurants.web.user.UserTestData.USER_ID;
-import static com.example.restaurants.web.user.UserTestData.USER_MAIL;
-import static com.example.restaurants.web.vote.VoteTestData.*;
+import static com.example.restaurants.web.user.UserTestData.*;
+import static com.example.restaurants.web.vote.VoteTestData.VOTE_TO_RESTAURANT2;
+import static com.example.restaurants.web.vote.VoteTestData.VOTE_TO_TEST_MATCHER;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteControllerTest extends AbstractControllerTest {
-    private static final String REST_URL_SLASH = REST_URL_USER + '/';
-
     @Autowired
     private VoteRepository voteRepository;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
+        perform(MockMvcRequestBuilders.get(VoteController.REST_URL))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_OF_USER));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(VOTE_TO_RESTAURANT2));
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
         if(itIsGoodTimeToMakeVote()) {
-            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes" + TODAY_STRING_PARAMETER))
+            perform(MockMvcRequestBuilders.delete(VoteController.REST_URL))
                     .andExpect(status().isNoContent());
-            assertFalse(voteRepository.get(USER_ID, RESTAURANT2_ID, LocalDate.now()).isPresent());
+            assertFalse(voteRepository.get(USER_ID, LocalDate.now()).isPresent());
         }
     }
 
     @Test
-    @WithUserDetails(value = USER_MAIL)
+    @WithUserDetails(value = ADMIN_MAIL)
     void createWithPlacement() throws Exception {
         if(itIsGoodTimeToMakeVote()) {
-            Vote newVote = VoteTestData.getNew();
-            ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT3_ID + "/votes")
-                    .contentType(MediaType.APPLICATION_JSON));
+            VoteToTest newVoteToTest = VoteTestData.getNewToTest();
+            ResultActions action = perform(MockMvcRequestBuilders.post(VoteController.REST_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(JsonUtil.writeValue(newVoteToTest)));
 
-            Vote created = VOTE_MATCHER.readFromJson(action);
+            VoteToTest created = VOTE_TO_TEST_MATCHER.readFromJson(action);
             int newId = created.id();
-            newVote.setId(newId);
-            VOTE_MATCHER.assertMatch(created, newVote);
-            VOTE_MATCHER.assertMatch(voteRepository.getExisted(newId), newVote);
+            newVoteToTest.setId(newId);
+            VOTE_TO_TEST_MATCHER.assertMatch(created, newVoteToTest);
+            VOTE_TO_TEST_MATCHER.assertMatch(VoteTestData.createToTest(voteRepository.getExisted(newId)), newVoteToTest);
         }
     }
 
@@ -68,7 +67,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void createOnWrongTime() throws Exception {
         if(!itIsGoodTimeToMakeVote()) {
-            ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT3_ID + "/votes")
+            ResultActions action = perform(MockMvcRequestBuilders.post(VoteController.REST_URL)
                     .contentType(MediaType.APPLICATION_JSON));
             action.andExpect(status().isUnprocessableEntity());
         }
@@ -78,7 +77,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void deleteOnWrongTime() throws Exception {
         if(!itIsGoodTimeToMakeVote()) {
-            perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT2_ID + "/votes"))
+            perform(MockMvcRequestBuilders.delete(VoteController.REST_URL))
                     .andExpect(status().isUnprocessableEntity());
         }
     }

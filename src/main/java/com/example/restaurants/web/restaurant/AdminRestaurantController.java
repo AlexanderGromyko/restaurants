@@ -3,6 +3,7 @@ package com.example.restaurants.web.restaurant;
 import com.example.restaurants.model.Restaurant;
 import com.example.restaurants.repository.RestaurantRepository;
 import com.example.restaurants.to.RestaurantTo;
+import com.example.restaurants.util.RestaurantsUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import static com.example.restaurants.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-public class AdminRestaurantController extends AbstractRestaurantController {
+public class AdminRestaurantController {
     public static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
@@ -31,12 +32,14 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @GetMapping("/{id}")
     public RestaurantTo get(@PathVariable int id) {
-        return super.get(id);
+        log.info("get {}", id);
+        return RestaurantsUtil.createTo(repository.get(id).orElseThrow());
     }
 
     @GetMapping
     public List<RestaurantTo> getAll() {
-        return super.getAll();
+        log.info("getAll restaurants");
+        return RestaurantsUtil.getTos(repository.getAll());
     }
 
     @DeleteMapping("/{id}")

@@ -8,10 +8,11 @@ VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
 
-INSERT INTO RESTAURANTS (NAME, description)
-VALUES ('IKEA cafe', 'Cafe for IKEA customers'),
-       ('Cafe', 'Small cafe'),
-       ('British pub', 'Famous British pub');
+INSERT INTO RESTAURANTS (NAME, description, enabled)
+VALUES ('IKEA cafe', 'Cafe for IKEA customers', true),
+       ('Cafe', 'Small cafe', true),
+       ('British pub', 'Famous British pub', true),
+       ('Closed pub', 'Famous British pub, but closed', false);
 
 INSERT INTO DISHES (NAME, menu_date, restaurant_id, description, price)
 VALUES ('Fried eggs', CURRENT_DATE, 1, '3 fried eggs', 4000),
@@ -38,9 +39,11 @@ VALUES ('Fried eggs', CURRENT_DATE, 1, '3 fried eggs', 4000),
        ('Beer 0.33', DATEADD('DAY',-1, CURRENT_DATE), 3, 'Non-alcoholic beer', 4500);
 
 INSERT INTO VOTES (restaurant_id, user_id, vote_date)
-VALUES (1, 2, CURRENT_DATE),
-       (1, 3, CURRENT_DATE),
+VALUES (1, 3, CURRENT_DATE),
        (2, 1, CURRENT_DATE),
        (2, 1, DATEADD('DAY',-1, CURRENT_DATE)),
        (2, 2, DATEADD('DAY',-1, CURRENT_DATE)),
-       (2, 3, DATEADD('DAY',-1, CURRENT_DATE));
+       (2, 3, DATEADD('DAY',-1, CURRENT_DATE)),
+       (3, 1, DATEADD('DAY',-2, CURRENT_DATE)),
+       (3, 2, DATEADD('DAY',-2, CURRENT_DATE)),
+       (3, 3, DATEADD('DAY',-2, CURRENT_DATE));

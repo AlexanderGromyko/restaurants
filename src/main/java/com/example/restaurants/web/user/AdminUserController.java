@@ -73,5 +73,6 @@ public class AdminUserController extends AbstractGetDeleteController {
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
         User user = repository.getExisted(id);
+        user.setEnabled(enabled);
     }
 }
