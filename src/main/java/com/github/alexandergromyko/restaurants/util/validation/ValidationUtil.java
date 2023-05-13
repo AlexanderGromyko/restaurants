@@ -6,7 +6,6 @@ import com.github.alexandergromyko.restaurants.error.IllegalRequestDataException
 
 @UtilityClass
 public class ValidationUtil {
-
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");

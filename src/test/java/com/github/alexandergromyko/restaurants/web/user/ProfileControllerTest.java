@@ -22,7 +22,6 @@ import static com.github.alexandergromyko.restaurants.web.user.UniqueMailValidat
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.*;
 
 class ProfileControllerTest extends AbstractControllerTest {
-
     @Autowired
     private UserRepository userRepository;
 

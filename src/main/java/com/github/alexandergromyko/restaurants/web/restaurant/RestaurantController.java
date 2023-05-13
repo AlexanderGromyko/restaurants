@@ -21,7 +21,6 @@ import java.util.List;
 public class RestaurantController {
     @Autowired
     protected RestaurantRepository repository;
-
     public static final String REST_URL = "/api/restaurants";
 
     @GetMapping("/{id}")

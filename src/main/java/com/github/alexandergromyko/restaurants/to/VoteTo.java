@@ -9,11 +9,10 @@ import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class VoteTo extends BaseTo{
+public class VoteTo extends BaseTo {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     LocalDate date;
-
-    @Range(min=1)
+    @Range(min = 1)
     int restaurantId;
 
     public VoteTo(Integer id, LocalDate date, int restaurantId) {

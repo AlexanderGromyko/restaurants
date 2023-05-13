@@ -38,10 +38,8 @@ import java.util.Optional;
 @Slf4j
 public class RestExceptionHandler {
     public static final String ERR_PFX = "ERR# ";
-
     @Getter
     private final MessageSource messageSource;
-
     //    https://stackoverflow.com/a/52254601/548473
     static final Map<Class<? extends Throwable>, ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
         {

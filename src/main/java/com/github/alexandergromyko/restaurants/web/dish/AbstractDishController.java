@@ -15,7 +15,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public abstract class AbstractDishController {
     protected final Logger log = getLogger(getClass());
-
     @Autowired
     protected DishRepository repository;
 

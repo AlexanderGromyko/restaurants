@@ -21,9 +21,7 @@ import static com.github.alexandergromyko.restaurants.web.user.UniqueMailValidat
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.*;
 
 class AdminUserControllerTest extends AbstractControllerTest {
-
     private static final String REST_URL_SLASH = REST_URL + '/';
-
     @Autowired
     private UserRepository userRepository;
 

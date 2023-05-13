@@ -8,11 +8,8 @@ import java.time.LocalDate;
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class DishTo extends NamedTo {
-
     LocalDate date;
-
     String description;
-
     int price;
 
     public DishTo(Integer id, String name, LocalDate date, String description, Integer price) {

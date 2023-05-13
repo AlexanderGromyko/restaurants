@@ -37,7 +37,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
-        if(VoteService.itIsGoodTimeToMakeVote()) {
+        if (VoteService.itIsGoodTimeToMakeVote()) {
             perform(MockMvcRequestBuilders.delete(VoteController.REST_URL))
                     .andExpect(status().isNoContent());
             assertFalse(voteRepository.get(USER_ID, LocalDate.now()).isPresent());
@@ -47,7 +47,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createWithPlacement() throws Exception {
-        if(VoteService.itIsGoodTimeToMakeVote()) {
+        if (VoteService.itIsGoodTimeToMakeVote()) {
             VoteToTest newVoteToTest = VoteTestData.getNewToTest();
             ResultActions action = perform(MockMvcRequestBuilders.post(VoteController.REST_URL)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -64,7 +64,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createOnWrongTime() throws Exception {
-        if(!VoteService.itIsGoodTimeToMakeVote()) {
+        if (!VoteService.itIsGoodTimeToMakeVote()) {
             VoteToTest newVoteToTest = VoteTestData.getNewToTest();
             ResultActions action = perform(MockMvcRequestBuilders.post(VoteController.REST_URL)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +76,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void deleteOnWrongTime() throws Exception {
-        if(!VoteService.itIsGoodTimeToMakeVote()) {
+        if (!VoteService.itIsGoodTimeToMakeVote()) {
             perform(MockMvcRequestBuilders.delete(VoteController.REST_URL))
                     .andExpect(status().isUnprocessableEntity());
         }

@@ -8,11 +8,10 @@ import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class VoteToTest extends BaseTo{
+public class VoteToTest extends BaseTo {
     //The only difference from VoteTo is no @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     LocalDate date;
-
-    @Range(min=1)
+    @Range(min = 1)
     int restaurantId;
 
     public VoteToTest(Integer id, LocalDate date, int restaurantId) {

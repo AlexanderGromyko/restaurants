@@ -5,11 +5,9 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends NamedTo{
+public class RestaurantTo extends NamedTo {
     String description;
-
     boolean enabled;
-
     int votesNumber;
 
     public RestaurantTo(Integer id, String name, String description, boolean enabled, int votesNumber) {

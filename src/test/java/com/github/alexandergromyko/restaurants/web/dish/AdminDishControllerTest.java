@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AdminDishControllerTest extends AbstractControllerTest {
     private static final String REST_URL_SLASH = DishTestData.REST_URL_ADMIN + '/';
-
     @Autowired
     private DishRepository dishRepository;
 

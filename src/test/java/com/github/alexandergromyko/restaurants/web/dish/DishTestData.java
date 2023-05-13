@@ -12,13 +12,10 @@ import java.util.List;
 public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
     public static MatcherFactory.Matcher<DishTo> DISH_TO_MATCHER = MatcherFactory.usingEqualsComparator(DishTo.class);
-
     public static final String REST_URL_USER = RestaurantController.REST_URL + "/2/dishes";
     public static final String REST_URL_ADMIN = AdminRestaurantController.REST_URL + "/2/dishes";
-
     public static final int DISH1_ID = 1;
     public static final int DISH5_ID = 5;
-
     public static final Dish dish1 = new Dish(DISH1_ID, "Fried eggs", LocalDate.now(), "3 fried eggs", 4000);
     public static final Dish dish2 = new Dish(DISH1_ID + 1, "Bread", LocalDate.now(), "Plate of bread", 1000);
     public static final Dish dish3 = new Dish(DISH1_ID + 2, "Fried potato", LocalDate.now(), "Just fries", 1500);
@@ -42,6 +39,6 @@ public class DishTestData {
     }
 
     public static Dish getUpdated() {
-        return new Dish(DISH5_ID, "updated name",  LocalDate.now().plusDays(1), "updated description", 123);
+        return new Dish(DISH5_ID, "updated name", LocalDate.now().plusDays(1), "updated description", 123);
     }
 }

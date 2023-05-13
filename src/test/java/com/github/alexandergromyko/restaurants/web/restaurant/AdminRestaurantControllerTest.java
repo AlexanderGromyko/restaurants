@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AdminRestaurantControllerTest extends AbstractControllerTest {
     private static final String REST_URL_SLASH = REST_URL_ADMIN + '/';
-
     @Autowired
     private RestaurantRepository restaurantRepository;
 

@@ -21,18 +21,15 @@ public class Dish extends NamedEntity {
     @Column(name = "menu_date", nullable = false)
     @NotNull
     private LocalDate date;
-
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 1000)
     @NoHtml
     private String description;
-
     @Column(name = "price", nullable = false)
     @NotNull
     @Range(min = 0)
     private Integer price;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore

@@ -29,29 +29,24 @@ import java.util.*;
 public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
     @Size(max = 128)
     @NoHtml   // https://stackoverflow.com/questions/17480809
     private String email;
-
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(max = 256)
     // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
-
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date registered = new Date();
-
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -61,7 +56,6 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @Schema(hidden = true)
@@ -87,6 +81,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
+
     public boolean hasRole(Role role) {
         return roles != null && roles.contains(role);
     }

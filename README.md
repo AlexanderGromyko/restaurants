@@ -1,6 +1,7 @@
 A voting system for deciding where to have lunch
 ===============================
-Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.]
+Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
+
 Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.0, Lombok, H2, Caffeine Cache, Swagger/OpenAPI 3.0
 Run: `mvn spring-boot:run` in root directory.
 

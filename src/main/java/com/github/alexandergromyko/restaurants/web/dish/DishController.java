@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
-public class DishController extends AbstractDishController{
+public class DishController extends AbstractDishController {
     public static final String REST_URL = RestaurantController.REST_URL + "/{restaurantId}/dishes";
 
     @GetMapping("/{id}")

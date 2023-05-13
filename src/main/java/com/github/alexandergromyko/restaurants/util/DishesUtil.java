@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class DishesUtil {
-
     public static List<DishTo> getTos(Collection<Dish> dishes) {
         return dishes.stream()
                 .map(dish -> createTo(dish))

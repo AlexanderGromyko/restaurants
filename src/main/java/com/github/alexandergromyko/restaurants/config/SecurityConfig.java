@@ -27,7 +27,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SecurityConfig {
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
     private final UserRepository userRepository;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
 

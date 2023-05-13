@@ -24,7 +24,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminRestaurantController {
     public static final String REST_URL = "/api/admin/restaurants";
-
     @Autowired
     protected RestaurantRepository repository;
 

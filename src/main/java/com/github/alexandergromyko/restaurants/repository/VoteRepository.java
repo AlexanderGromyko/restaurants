@@ -11,13 +11,12 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
-
     @Modifying
     @Transactional
     @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.date=:date")
     int delete(int userId, LocalDate date);
 
-    @EntityGraph(attributePaths =  {"restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.date=:date")
     Optional<Vote> get(int userId, LocalDate date);
 }

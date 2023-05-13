@@ -21,9 +21,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class VoteService {
     private final VoteRepository voteRepository;
-
     private final RestaurantRepository restaurantRepository;
-
     public static final LocalTime GOOD_TIME_TO_VOTE = LocalTime.of(11, 0, 0);
 
     public VoteTo get(int userId, LocalDate voteDate) {
@@ -32,24 +30,26 @@ public class VoteService {
 
     @Transactional
     public VoteTo save(User user, int restaurantId, LocalDate date) {
-        if(itIsGoodTimeToMakeVote()) {
+        if (itIsGoodTimeToMakeVote()) {
             Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
-            if(!restaurant.isEnabled()) {
+            if (!restaurant.isEnabled()) {
                 throw new NotFoundException("Entity with id=" + restaurantId + " not found");
             }
             Vote newVote = new Vote(null, date, user, restaurant);
             return VoteUtil.createTo(voteRepository.save(newVote));
-        } else throw new IllegalRequestDataException("It's not allowed to vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
+        } else
+            throw new IllegalRequestDataException("It's not allowed to vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
     @Transactional
     public int delete(int userId, LocalDate date) {
-        if(itIsGoodTimeToMakeVote()) {
+        if (itIsGoodTimeToMakeVote()) {
             return voteRepository.delete(userId, date);
-        } else throw new IllegalRequestDataException("It's not allowed to change vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
+        } else
+            throw new IllegalRequestDataException("It's not allowed to change vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
     public static boolean itIsGoodTimeToMakeVote() {
-        return LocalTime.now().isBefore(GOOD_TIME_TO_VOTE)&&LocalTime.now().isAfter(LocalTime.MIN);
+        return LocalTime.now().isBefore(GOOD_TIME_TO_VOTE) && LocalTime.now().isAfter(LocalTime.MIN);
     }
 }

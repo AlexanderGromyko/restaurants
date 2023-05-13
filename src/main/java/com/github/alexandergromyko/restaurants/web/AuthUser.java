@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import static java.util.Objects.requireNonNull;
 
 public class AuthUser extends org.springframework.security.core.userdetails.User {
-
     @Getter
     private final User user;
 

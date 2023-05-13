@@ -20,7 +20,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class VoteController {
     public static final String REST_URL = "/api/votes";
-
     private final VoteService service;
 
     @GetMapping
