@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingEqualsComparator(Restaurant.class);
-    public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class, "votesNumber");
+    public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingEqualsComparator(RestaurantTo.class);
     public static final String REST_URL_USER = RestaurantController.REST_URL;
     public static final String REST_URL_ADMIN = AdminRestaurantController.REST_URL;
     public static final int RESTAURANT1_ID = 1;

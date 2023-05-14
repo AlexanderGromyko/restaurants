@@ -1,7 +1,7 @@
 package com.github.alexandergromyko.restaurants.web.restaurant;
 
-import com.github.alexandergromyko.restaurants.web.AbstractControllerTest;
 import com.github.alexandergromyko.restaurants.util.RestaurantsUtil;
+import com.github.alexandergromyko.restaurants.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;

@@ -1,6 +1,5 @@
 package com.github.alexandergromyko.restaurants.web.vote;
 
-import com.github.alexandergromyko.restaurants.model.Restaurant;
 import com.github.alexandergromyko.restaurants.model.Vote;
 import com.github.alexandergromyko.restaurants.to.VoteToTest;
 import com.github.alexandergromyko.restaurants.web.MatcherFactory;
@@ -8,9 +7,7 @@ import com.github.alexandergromyko.restaurants.web.MatcherFactory;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.restaurant1;
-import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.restaurant2;
-import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.restaurant3;
+import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.*;
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.user;
 
 public class VoteTestData {

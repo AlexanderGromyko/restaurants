@@ -8,13 +8,11 @@ import lombok.Value;
 public class RestaurantTo extends NamedTo {
     String description;
     boolean enabled;
-    int votesNumber;
 
-    public RestaurantTo(Integer id, String name, String description, boolean enabled, int votesNumber) {
+    public RestaurantTo(Integer id, String name, String description, boolean enabled) {
         super(id, name);
         this.description = description;
         this.enabled = enabled;
-        this.votesNumber = votesNumber;
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.github.alexandergromyko.restaurants.web.dish;
 
 import com.github.alexandergromyko.restaurants.model.Dish;
 import com.github.alexandergromyko.restaurants.repository.DishRepository;
+import com.github.alexandergromyko.restaurants.util.DishesUtil;
 import com.github.alexandergromyko.restaurants.util.JsonUtil;
 import com.github.alexandergromyko.restaurants.web.AbstractControllerTest;
 import com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData;
-import com.github.alexandergromyko.restaurants.util.DishesUtil;
 import com.github.alexandergromyko.restaurants.web.vote.VoteTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

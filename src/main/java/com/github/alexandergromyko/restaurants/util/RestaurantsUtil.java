@@ -17,10 +17,6 @@ public class RestaurantsUtil {
     }
 
     public static RestaurantTo createTo(Restaurant restaurant) {
-        int votes = 0;
-        if (restaurant.getVotes() != null) {
-            votes = restaurant.getVotes().size();
-        }
-        return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getDescription(), restaurant.isEnabled(), votes);
+        return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getDescription(), restaurant.isEnabled());
     }
 }

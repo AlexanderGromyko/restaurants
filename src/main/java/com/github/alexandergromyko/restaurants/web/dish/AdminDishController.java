@@ -7,10 +7,10 @@ import com.github.alexandergromyko.restaurants.util.validation.ValidationUtil;
 import com.github.alexandergromyko.restaurants.web.restaurant.AdminRestaurantController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 @AllArgsConstructor
 public class AdminDishController extends AbstractDishController {
     public static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/dishes";
@@ -39,14 +38,14 @@ public class AdminDishController extends AbstractDishController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id, @PathVariable int restaurantId) {
-        log.info("delete {} for restaurant {}", id, restaurantId);
-        Dish dish = repository.getExistedAndBelonged(restaurantId, id);
-        repository.delete(dish);
+    public void delete(@PathVariable int id) {
+        log.info("delete {}", id);
+        repository.deleteExisted(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update {} for restaurant {}", dish, restaurantId);
         ValidationUtil.assureIdConsistent(dish, id);
