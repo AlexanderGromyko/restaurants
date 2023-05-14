@@ -28,18 +28,26 @@ public class VoteController {
         return service.get(authUser.id(), LocalDate.now());
     }
 
-    @Operation(summary = "note: only owner can delete his own vote and only before 11:00:00")
+    @Operation(summary = "note: only owner can delete his vote only before 11:00:00")
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         log.info("delete vote of userId {}", authUser.id());
-        service.delete(authUser.id(), LocalDate.now());
+        service.delete(authUser.id());
     }
 
-    @Operation(summary = "note: owner can vote only for himself and only before 11:00:00")
+    @Operation(summary = "note: user can change his vote only before 11:00:00")
+    @PutMapping(value = "/{restaurantId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@AuthenticationPrincipal AuthUser authUser, @PathVariable int restaurantId) {
+        log.info("update vote for userId {} and restaurantId {}", authUser.getUser(), restaurantId);
+        service.update(authUser.getUser(), restaurantId);
+    }
+
+    @Operation(summary = "note: user can vote only for one restaurant")
     @PostMapping
     public VoteTo createWithPlacement(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteTo voteTo) {
         log.info("create vote for userId {} and restaurantId {}", authUser.getUser(), voteTo.getRestaurantId());
-        return service.save(authUser.getUser(), voteTo.getRestaurantId(), LocalDate.now());
+        return service.save(authUser.getUser(), voteTo.getRestaurantId());
     }
 }

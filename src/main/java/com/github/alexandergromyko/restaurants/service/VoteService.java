@@ -1,8 +1,6 @@
 package com.github.alexandergromyko.restaurants.service;
 
 import com.github.alexandergromyko.restaurants.error.IllegalRequestDataException;
-import com.github.alexandergromyko.restaurants.error.NotFoundException;
-import com.github.alexandergromyko.restaurants.model.Restaurant;
 import com.github.alexandergromyko.restaurants.model.User;
 import com.github.alexandergromyko.restaurants.model.Vote;
 import com.github.alexandergromyko.restaurants.repository.RestaurantRepository;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,27 +28,38 @@ public class VoteService {
     }
 
     @Transactional
-    public VoteTo save(User user, int restaurantId, LocalDate date) {
-        if (itIsGoodTimeToMakeVote()) {
-            Restaurant restaurant = restaurantRepository.getExisted(restaurantId);
-            if (!restaurant.isEnabled()) {
-                throw new NotFoundException("Entity with id=" + restaurantId + " not found");
-            }
-            Vote newVote = new Vote(null, date, user, restaurant);
-            return VoteUtil.createTo(voteRepository.save(newVote));
+    public VoteTo update(User user, int restaurantId) {
+        LocalDateTime voteMoment = getVoteDateTime();
+        if (itIsGoodTimeToMakeVote(voteMoment)) {
+            Vote existedVote = voteRepository.getExistedOnDate(user.getId(), voteMoment.toLocalDate());
+            existedVote.setRestaurant(restaurantRepository.getExistedAndEnabled(restaurantId));
+            return VoteUtil.createTo(voteRepository.save(existedVote));
         } else
             throw new IllegalRequestDataException("It's not allowed to vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
     @Transactional
-    public int delete(int userId, LocalDate date) {
-        if (itIsGoodTimeToMakeVote()) {
-            return voteRepository.delete(userId, date);
+    public VoteTo save(User user, int restaurantId) {
+        LocalDateTime voteMoment = getVoteDateTime();
+        voteRepository.isNotExistedOnDate(user.getId(), voteMoment.toLocalDate());
+        Vote newVote = new Vote(null, voteMoment.toLocalDate(), user, restaurantRepository.getExistedAndEnabled(restaurantId));
+        return VoteUtil.createTo(voteRepository.save(newVote));
+    }
+
+    @Transactional
+    public int delete(int userId) {
+        LocalDateTime voteMoment = getVoteDateTime();
+        if (itIsGoodTimeToMakeVote(voteMoment)) {
+            return voteRepository.delete(userId, voteMoment.toLocalDate());
         } else
             throw new IllegalRequestDataException("It's not allowed to change vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
-    public static boolean itIsGoodTimeToMakeVote() {
-        return LocalTime.now().isBefore(GOOD_TIME_TO_VOTE) && LocalTime.now().isAfter(LocalTime.MIN);
+    public static boolean itIsGoodTimeToMakeVote(LocalDateTime localDateTime) {
+        return localDateTime.toLocalTime().isBefore(GOOD_TIME_TO_VOTE) && localDateTime.toLocalTime().isAfter(LocalTime.MIN);
+    }
+
+    public static LocalDateTime getVoteDateTime() {
+        return LocalDateTime.now();
     }
 }

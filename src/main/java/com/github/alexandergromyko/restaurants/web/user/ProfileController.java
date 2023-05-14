@@ -4,6 +4,7 @@ import com.github.alexandergromyko.restaurants.model.User;
 import com.github.alexandergromyko.restaurants.to.UserTo;
 import com.github.alexandergromyko.restaurants.util.UsersUtil;
 import com.github.alexandergromyko.restaurants.util.validation.ValidationUtil;
+import com.github.alexandergromyko.restaurants.web.AuthUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.github.alexandergromyko.restaurants.web.AuthUser;
 
 import java.net.URI;
 

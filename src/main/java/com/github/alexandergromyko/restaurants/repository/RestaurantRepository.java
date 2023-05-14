@@ -1,5 +1,6 @@
 package com.github.alexandergromyko.restaurants.repository;
 
+import com.github.alexandergromyko.restaurants.error.NotFoundException;
 import com.github.alexandergromyko.restaurants.model.Restaurant;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,11 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT r FROM Restaurant r WHERE r.id=:id AND r.enabled")
     Optional<Restaurant> getEnabled(int id);
+
+    default Restaurant getExistedAndEnabled(int id) {
+        Restaurant restaurant = getExisted(id);
+        if (restaurant.isEnabled()) {
+            return restaurant;
+        } else throw new NotFoundException("Restaurant with id=" + id + " not found");
+    }
 }

@@ -1,8 +1,8 @@
 package com.github.alexandergromyko.restaurants.util.validation;
 
 import com.github.alexandergromyko.restaurants.HasId;
-import lombok.experimental.UtilityClass;
 import com.github.alexandergromyko.restaurants.error.IllegalRequestDataException;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ValidationUtil {

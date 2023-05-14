@@ -1,8 +1,8 @@
 package com.github.alexandergromyko.restaurants.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexandergromyko.restaurants.HasIdAndEmail;
 import com.github.alexandergromyko.restaurants.util.validation.NoHtml;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

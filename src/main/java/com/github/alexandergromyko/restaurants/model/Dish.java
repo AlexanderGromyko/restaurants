@@ -1,7 +1,7 @@
 package com.github.alexandergromyko.restaurants.model;
 
-import com.github.alexandergromyko.restaurants.util.validation.NoHtml;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.alexandergromyko.restaurants.util.validation.NoHtml;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
