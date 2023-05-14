@@ -2,14 +2,18 @@ package com.github.alexandergromyko.restaurants.web.restaurant;
 
 import com.github.alexandergromyko.restaurants.model.Restaurant;
 import com.github.alexandergromyko.restaurants.to.RestaurantTo;
+import com.github.alexandergromyko.restaurants.to.RestaurantWithDishesTo;
 import com.github.alexandergromyko.restaurants.util.RestaurantsUtil;
 import com.github.alexandergromyko.restaurants.web.MatcherFactory;
 
 import java.util.List;
 
+import static com.github.alexandergromyko.restaurants.web.dish.DishTestData.*;
+
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingEqualsComparator(Restaurant.class);
     public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingEqualsComparator(RestaurantTo.class);
+    public static MatcherFactory.Matcher<RestaurantWithDishesTo> RESTAURANT_WITH_DISHES_TO_MATCHER = MatcherFactory.usingEqualsComparator(RestaurantWithDishesTo.class);
     public static final String REST_URL_USER = RestaurantController.REST_URL;
     public static final String REST_URL_ADMIN = AdminRestaurantController.REST_URL;
     public static final int RESTAURANT1_ID = 1;
@@ -30,5 +34,12 @@ public class RestaurantTestData {
 
     public static Restaurant getUpdated() {
         return new Restaurant(RESTAURANT2_ID, "updated restaurant name", "updated restaurant description");
+    }
+
+    public static List<Restaurant> getEnabledRestaurantWithDishes() {
+        restaurant1.setDishes(List.of(dish2, dish1, dish3, dish4));
+        restaurant2.setDishes(List.of(dish5, dish8, dish7, dish6));
+        restaurant3.setDishes(List.of(dish11, dish10, dish9));
+        return List.of(restaurant3, restaurant2, restaurant1);
     }
 }

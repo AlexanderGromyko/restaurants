@@ -37,7 +37,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAll() throws Exception {
+    void getByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(DishTestData.REST_URL_ADMIN))
                 .andExpect(status().isOk())
                 .andDo(print())

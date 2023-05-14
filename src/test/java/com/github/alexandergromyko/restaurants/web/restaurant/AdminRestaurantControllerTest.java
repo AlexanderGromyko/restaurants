@@ -3,6 +3,7 @@ package com.github.alexandergromyko.restaurants.web.restaurant;
 import com.github.alexandergromyko.restaurants.model.Restaurant;
 import com.github.alexandergromyko.restaurants.repository.RestaurantRepository;
 import com.github.alexandergromyko.restaurants.util.JsonUtil;
+import com.github.alexandergromyko.restaurants.util.RestaurantsUtil;
 import com.github.alexandergromyko.restaurants.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,22 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getByDate() throws Exception {
+    void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_ADMIN))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_TO_MATCHER.contentJson(getTos(allRestaurants)));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAllWithDishes() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_ADMIN + "/with-dishes"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RestaurantTestData.RESTAURANT_WITH_DISHES_TO_MATCHER.contentJson(RestaurantsUtil.getWithDishesTos(RestaurantTestData.getEnabledRestaurantWithDishes())));
     }
 
     @Test

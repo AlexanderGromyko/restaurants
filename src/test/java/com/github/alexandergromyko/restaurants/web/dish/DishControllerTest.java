@@ -27,7 +27,7 @@ class DishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getAll() throws Exception {
+    void getByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(DishTestData.REST_URL_USER))
                 .andExpect(status().isOk())
                 .andDo(print())

@@ -3,6 +3,7 @@ package com.github.alexandergromyko.restaurants.web.restaurant;
 import com.github.alexandergromyko.restaurants.model.Restaurant;
 import com.github.alexandergromyko.restaurants.repository.RestaurantRepository;
 import com.github.alexandergromyko.restaurants.to.RestaurantTo;
+import com.github.alexandergromyko.restaurants.to.RestaurantWithDishesTo;
 import com.github.alexandergromyko.restaurants.util.RestaurantsUtil;
 import com.github.alexandergromyko.restaurants.util.validation.ValidationUtil;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,12 @@ public class AdminRestaurantController {
     public List<RestaurantTo> getAll() {
         log.info("getAll restaurants");
         return RestaurantsUtil.getTos(repository.getAll());
+    }
+
+    @GetMapping("/with-dishes")
+    public List<RestaurantWithDishesTo> getAllWithDishes() {
+        log.info("getAll with dishes");
+        return RestaurantsUtil.getWithDishesTos(repository.getAllWithDishes(LocalDate.now()));
     }
 
     @DeleteMapping("/{id}")

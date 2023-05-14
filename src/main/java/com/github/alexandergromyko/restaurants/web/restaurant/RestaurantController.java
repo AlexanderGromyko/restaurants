@@ -2,6 +2,7 @@ package com.github.alexandergromyko.restaurants.web.restaurant;
 
 import com.github.alexandergromyko.restaurants.repository.RestaurantRepository;
 import com.github.alexandergromyko.restaurants.to.RestaurantTo;
+import com.github.alexandergromyko.restaurants.to.RestaurantWithDishesTo;
 import com.github.alexandergromyko.restaurants.util.RestaurantsUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,5 +35,11 @@ public class RestaurantController {
     public List<RestaurantTo> getAll() {
         log.info("getAll restaurants");
         return RestaurantsUtil.getTos(repository.getAllEnadled());
+    }
+
+    @GetMapping("/with-dishes")
+    public List<RestaurantWithDishesTo> getAllWithDishes() {
+        log.info("getAll with dishes");
+        return RestaurantsUtil.getWithDishesTos(repository.getAllEnabledWithDishes(LocalDate.now()));
     }
 }

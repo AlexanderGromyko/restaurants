@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.REST_URL_ADMIN;
+import static com.github.alexandergromyko.restaurants.web.user.UserTestData.ADMIN_MAIL;
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.USER_MAIL;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,6 +35,16 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RestaurantTestData.RESTAURANT_TO_MATCHER.contentJson(RestaurantsUtil.getTos(RestaurantTestData.enabledRestaurants)));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAllEnabledWithDishes() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_ADMIN + "/with-dishes"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RestaurantTestData.RESTAURANT_WITH_DISHES_TO_MATCHER.contentJson(RestaurantsUtil.getWithDishesTos(RestaurantTestData.getEnabledRestaurantWithDishes())));
     }
 
     @Test
