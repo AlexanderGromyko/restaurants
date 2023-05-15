@@ -19,7 +19,8 @@ import java.time.LocalDate;
 @Slf4j
 @AllArgsConstructor
 public class VoteController {
-    public static final String REST_URL = "/api/votes";
+    public static final String REST_URL = "/api/today-votes";
+    public static final String GOOD_TIME_TO_VOTE_STRING = "11:00:00";
     private final VoteService service;
 
     @GetMapping
@@ -28,7 +29,7 @@ public class VoteController {
         return service.get(authUser.id(), LocalDate.now());
     }
 
-    @Operation(summary = "note: only owner can delete his vote only before 11:00:00")
+    @Operation(summary = "note: only owner can delete his vote only before " + GOOD_TIME_TO_VOTE_STRING)
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
@@ -36,7 +37,7 @@ public class VoteController {
         service.delete(authUser.id());
     }
 
-    @Operation(summary = "note: user can change his vote only before 11:00:00")
+    @Operation(summary = "note: user can change his vote only before " + GOOD_TIME_TO_VOTE_STRING)
     @PutMapping(value = "/{restaurantId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@AuthenticationPrincipal AuthUser authUser, @PathVariable int restaurantId) {

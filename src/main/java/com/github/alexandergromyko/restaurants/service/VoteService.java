@@ -35,7 +35,7 @@ public class VoteService {
             existedVote.setRestaurant(restaurantRepository.getExistedAndEnabled(restaurantId));
             return VoteUtil.createTo(voteRepository.save(existedVote));
         } else
-            throw new IllegalRequestDataException("It's not allowed to vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
+            throw new IllegalRequestDataException("It's not allowed to update a vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
     @Transactional
@@ -52,7 +52,7 @@ public class VoteService {
         if (itIsGoodTimeToMakeVote(voteMoment)) {
             return voteRepository.delete(userId, voteMoment.toLocalDate());
         } else
-            throw new IllegalRequestDataException("It's not allowed to change vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
+            throw new IllegalRequestDataException("It's not allowed to delete a vote after " + GOOD_TIME_TO_VOTE.format(DateTimeFormatter.ofPattern("HH.mm")));
     }
 
     public static boolean itIsGoodTimeToMakeVote(LocalDateTime localDateTime) {
