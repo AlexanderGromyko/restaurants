@@ -24,7 +24,7 @@ public class VoteService {
     public static final LocalTime GOOD_TIME_TO_VOTE = LocalTime.of(11, 0, 0);
 
     public VoteTo get(int userId, LocalDate voteDate) {
-        return VoteUtil.createTo(voteRepository.get(userId, voteDate).get());
+        return VoteUtil.createTo(voteRepository.getExistedOnDate(userId, voteDate));
     }
 
     @Transactional

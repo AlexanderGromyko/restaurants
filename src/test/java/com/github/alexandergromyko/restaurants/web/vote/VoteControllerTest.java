@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 
 import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.restaurant1;
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -35,6 +36,14 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTestData.VOTE_TO_RESTAURANT2));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getNotExisted() throws Exception {
+        perform(MockMvcRequestBuilders.get(VoteController.REST_URL))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(containsString("1")));
     }
 
     @Test

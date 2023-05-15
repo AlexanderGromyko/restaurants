@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Range;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "dish_unique_name_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "menu_date"}, name = "dish_unique_name_date_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
