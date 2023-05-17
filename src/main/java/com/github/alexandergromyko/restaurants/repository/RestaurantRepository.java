@@ -29,6 +29,9 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes d WHERE d.date=:date AND r.enabled ORDER BY r.name ASC, d.name ASC")
     List<Restaurant> getAllEnabledWithDishes(LocalDate date);
 
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes d WHERE r.id=:id AND d.date=:date ORDER BY r.name ASC")
+    List<Restaurant> getAllByIdWithDishes(int id, LocalDate date);
+
     default Restaurant getExistedAndEnabled(int id) {
         Restaurant restaurant = getExisted(id);
         if (restaurant.isEnabled()) {

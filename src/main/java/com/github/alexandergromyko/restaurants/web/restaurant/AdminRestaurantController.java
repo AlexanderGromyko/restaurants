@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,9 +44,12 @@ public class AdminRestaurantController {
     }
 
     @GetMapping("/with-dishes")
-    public List<RestaurantWithDishesTo> getAllWithDishes() {
+    public List<RestaurantWithDishesTo> getAllWithDishes(@RequestParam Optional<Integer> restaurantId, @RequestParam Optional<LocalDate> date) {
         log.info("getAll with dishes");
-        return RestaurantsUtil.getWithDishesTos(repository.getAllWithDishes(LocalDate.now()));
+        if (restaurantId.isPresent()) {
+            return RestaurantsUtil.getWithDishesTos(repository.getAllByIdWithDishes(restaurantId.get(), date.orElse(LocalDate.now())));
+        }
+        return RestaurantsUtil.getWithDishesTos(repository.getAllWithDishes(date.orElse(LocalDate.now())));
     }
 
     @DeleteMapping("/{id}")
