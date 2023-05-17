@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class VoteController {
     private final VoteService service;
 
     @GetMapping
-    public VoteTo get(@AuthenticationPrincipal AuthUser authUser) {
+    public ResponseEntity<VoteTo> get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote for userId {}", authUser.id());
         return service.get(authUser.id(), LocalDate.now());
     }
@@ -38,11 +39,11 @@ public class VoteController {
     }
 
     @Operation(summary = "note: user can change his vote only before " + GOOD_TIME_TO_VOTE_STRING)
-    @PutMapping(value = "/{restaurantId}")
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal AuthUser authUser, @PathVariable int restaurantId) {
-        log.info("update vote for userId {} and restaurantId {}", authUser.getUser(), restaurantId);
-        service.update(authUser.getUser(), restaurantId);
+    public void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteTo voteTo) {
+        log.info("update vote for userId {} and restaurantId {}", authUser.getUser(), voteTo.getRestaurantId());
+        service.update(authUser.getUser(), voteTo.getRestaurantId());
     }
 
     @Operation(summary = "note: user can vote only for one restaurant")

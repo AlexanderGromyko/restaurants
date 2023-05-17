@@ -8,6 +8,8 @@ import com.github.alexandergromyko.restaurants.repository.VoteRepository;
 import com.github.alexandergromyko.restaurants.to.VoteTo;
 import com.github.alexandergromyko.restaurants.util.VoteUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -23,8 +26,12 @@ public class VoteService {
     private final RestaurantRepository restaurantRepository;
     public static final LocalTime GOOD_TIME_TO_VOTE = LocalTime.of(11, 0, 0);
 
-    public VoteTo get(int userId, LocalDate voteDate) {
-        return VoteUtil.createTo(voteRepository.getExistedOnDate(userId, voteDate));
+    public ResponseEntity<VoteTo> get(int userId, LocalDate voteDate) {
+        Optional<Vote> result = voteRepository.get(userId, voteDate);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(VoteUtil.createTo(result.get()), HttpStatus.OK);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @Transactional

@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.github.alexandergromyko.restaurants.web.restaurant.RestaurantTestData.restaurant1;
 import static com.github.alexandergromyko.restaurants.web.user.UserTestData.*;
-import static org.hamcrest.Matchers.containsString;
+import static com.github.alexandergromyko.restaurants.web.vote.VoteTestData.VOTE_TO_TEST_MATCHER;
+import static com.github.alexandergromyko.restaurants.web.vote.VoteTestData.getUpdatedToTest;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -35,15 +35,14 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTestData.VOTE_TO_RESTAURANT2));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(VoteTestData.VOTE_TO_RESTAURANT2));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getNotExisted() throws Exception {
         perform(MockMvcRequestBuilders.get(VoteController.REST_URL))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(containsString("1")));
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -66,11 +65,11 @@ class VoteControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newVoteToTest)));
 
-        VoteToTest created = VoteTestData.VOTE_TO_TEST_MATCHER.readFromJson(action);
+        VoteToTest created = VOTE_TO_TEST_MATCHER.readFromJson(action);
         int newId = created.id();
         newVoteToTest.setId(newId);
-        VoteTestData.VOTE_TO_TEST_MATCHER.assertMatch(created, newVoteToTest);
-        VoteTestData.VOTE_TO_TEST_MATCHER.assertMatch(VoteTestData.createToTest(voteRepository.getExisted(newId)), newVoteToTest);
+        VOTE_TO_TEST_MATCHER.assertMatch(created, newVoteToTest);
+        VOTE_TO_TEST_MATCHER.assertMatch(VoteTestData.createToTest(voteRepository.getExisted(newId)), newVoteToTest);
     }
 
     @Test
@@ -79,7 +78,10 @@ class VoteControllerTest extends AbstractControllerTest {
         LocalDateTime defaultLocalDateTime = LocalDateTime.now().withHour(12);
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(defaultLocalDateTime);
-            perform(MockMvcRequestBuilders.put(VoteController.REST_URL + "/" + restaurant1.id()))
+            VoteToTest updatedVoteToTest = getUpdatedToTest();
+            perform(MockMvcRequestBuilders.put(VoteController.REST_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(JsonUtil.writeValue(updatedVoteToTest)))
                     .andExpect(status().isUnprocessableEntity());
 
         }

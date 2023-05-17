@@ -9,13 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,9 +37,12 @@ public class RestaurantController {
         return RestaurantsUtil.getTos(repository.getAllEnadled());
     }
 
-    @GetMapping("/with-dishes")
-    public List<RestaurantWithDishesTo> getAllWithDishes() {
+    @GetMapping("/with-today-dishes")
+    public List<RestaurantWithDishesTo> getAllWithDishes(@RequestParam Optional<Integer> restaurantId) {
         log.info("getAll with dishes");
+        if (restaurantId.isPresent()) {
+            return RestaurantsUtil.getWithDishesTos(repository.getAllEnabledByIdWithDishes(restaurantId.get(), LocalDate.now()));
+        }
         return RestaurantsUtil.getWithDishesTos(repository.getAllEnabledWithDishes(LocalDate.now()));
     }
 }

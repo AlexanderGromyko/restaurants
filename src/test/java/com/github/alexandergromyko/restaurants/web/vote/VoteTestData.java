@@ -1,6 +1,7 @@
 package com.github.alexandergromyko.restaurants.web.vote;
 
 import com.github.alexandergromyko.restaurants.model.Vote;
+import com.github.alexandergromyko.restaurants.to.VoteTo;
 import com.github.alexandergromyko.restaurants.to.VoteToTest;
 import com.github.alexandergromyko.restaurants.web.MatcherFactory;
 
@@ -25,6 +26,10 @@ public class VoteTestData {
 
     public static VoteToTest getNewToTest() {
         return new VoteToTest(null, LocalDate.now(), restaurant3.id());
+    }
+
+    public static VoteTo getUpdatedTo() {
+        return new VoteTo(USERS_VOTE_ID, LocalDate.now(), restaurant1.id());
     }
 
     public static VoteToTest getUpdatedToTest() {
